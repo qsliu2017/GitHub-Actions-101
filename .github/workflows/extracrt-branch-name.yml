@@ -1,0 +1,17 @@
+name: extract info from branch name
+
+on:
+  push:
+    branches:
+      - 'release-*.*.*'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version from branch name
+        run: |
+          echo "${GITHUB_REF_NAME#release-}"
+          echo "VERSION=${GITHUB_REF_NAME#release-}" >> $GITHUB_ENV
+      - name: Reference version from env
+        run: echo ${{ env.VERSION }}
